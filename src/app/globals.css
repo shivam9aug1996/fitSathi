@@ -2,32 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@media (max-width: 768px) {
+  body {
+    font-size: 12px; /* Adjust the font size for smaller devices */
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  table th {
+    font-size: 9px !important;
+    min-width: 100px;
+  }
+  table td {
+    font-size: 12px !important;
+  }
+  .text-2xl {
+    font-size: 15px; /* Adjust the font size for smaller devices */
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@media screen and (max-width: 400px) {
+  .logo {
+    font-size: smaller; /* Change this value as needed */
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@media screen and (max-width: 360px) {
+  .logo {
+    font-size: 20px;
   }
+}
+
+/* Table header styles */
+table thead tr th {
+  background-color: rgb(175 121 149) !important; /* Soft Blue */
+  color: #ffffff !important; /* White */
+}
+
+/* Alternative row colors for better readability */
+table tbody tr:nth-child(even) {
+  background-color: #f2f2f2 !important; /* Light Gray */
 }
