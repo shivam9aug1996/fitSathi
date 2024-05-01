@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import { getCookies } from "./actions";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Providers from "./components/Providers";
 import "./globals.css";
@@ -26,7 +27,8 @@ export default function RootLayout({
         <link rel="icon" href="/logo3.svg" sizes="any" />
         <Providers getCookies={getCookies}>
           <Header />
-          {children}
+          <div className="h-lvh overflow-hidden">{children}</div>
+          <Footer />
         </Providers>
       </body>
     </html>
