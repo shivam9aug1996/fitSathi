@@ -51,13 +51,13 @@ export async function POST(req, res) {
     const token = jwt.sign({ id: result.insertedId }, secretKey);
 
     let now = new Date();
-    let expirationDate = new Date(now.getTime() + 1 * 60 * 60 * 1000);
+    let expirationDate = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
 
     cookies().set("gym_app_user_token", token, {
-      // expires: expirationDate,
-      // httpOnly: true,
-      // secure: true,
-      //sameSite: "strict",
+      expires: expirationDate,
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
     });
     cookies().set(
       "gym_app_user_data",
@@ -66,10 +66,10 @@ export async function POST(req, res) {
         userId: result.insertedId,
       }),
       {
-        // expires: expirationDate,
-        // httpOnly: true,
-        // secure: true,
-        // sameSite: "strict",
+        expires: expirationDate,
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
       }
     );
     return NextResponse.json(
