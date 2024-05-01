@@ -318,7 +318,7 @@ const MemberList = () => {
               : ""
           }
           isLoading={isGetMemberLoading || !gymId}
-          loadingContent={<TableLoader />}
+          loadingContent={<TableLoader wrapperStyle={{ marginTop: 130 }} />}
           items={sortedItems ?? []}
         >
           {(item) => {
