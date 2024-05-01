@@ -12,6 +12,10 @@ import {
   Tooltip,
   Input,
   Chip,
+  DropdownMenu,
+  DropdownItem,
+  DropdownTrigger,
+  Dropdown,
 } from "@nextui-org/react";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -37,25 +41,35 @@ import {
 import MembershipModal from "./MembershipModal";
 import { useRouter } from "next/navigation";
 import {
+  capitalize,
+  daysUntilExpiration,
   getDateDifferenceFromToday,
   getDifferenceInDays,
+  spaceToCamelCase,
+  toCamelCase,
 } from "@/app/functions";
 import Back from "@/app/components/Back";
 import TableLoader from "@/app/components/TableLoader";
 import DeleteModal from "@/app/components/DeleteModal";
 import useErrorNotification from "@/app/hooks/useErrorNotification";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const headerColumns = [
   { name: "NAME", sortable: true },
   // { name: "MOBILE NUMBER" },
   // { name: "ADDRESS" },
-  { name: "STATUS" },
+  { name: "STATUS", sortable: true },
   // { name: "START DATE" },
-  { name: "DAYS LEFT" },
-  { name: "AMOUNT DUE" },
+  { name: "DAYS LEFT", sortable: true },
+  { name: "AMOUNT DUE", sortable: true },
 
   { name: "ACTIONS" },
   { name: "PAYMENTS" },
+];
+
+const statusOptions = [
+  { name: "Active", uid: "Active" },
+  { name: "Expired", uid: "Expired" },
 ];
 
 const MemberList = () => {
@@ -70,6 +84,11 @@ const MemberList = () => {
     type: "",
     value: null,
   });
+  const [statusFilter, setStatusFilter] = React.useState("all");
+  const [selectedKeys, setSelectedKeys] = React.useState(
+    new Set(["Active", "Expired"])
+  );
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState({
     status: false,
     type: "",
@@ -134,7 +153,7 @@ const MemberList = () => {
       setFilterValue("");
     }
   }, []);
-  console.log("jhgffghj", isModalOpen);
+  console.log("jhgfffghjkghj", selectedKeys);
 
   const filteredItems = useMemo(() => {
     let filteredData = [...(getMemberData?.members ?? [])];
@@ -145,11 +164,45 @@ const MemberList = () => {
       );
     }
 
+    if (
+      !(selectedKeys.has("Active") && selectedKeys.has("Expired")) &&
+      Array.from(selectedKeys).length !== statusOptions.length
+    ) {
+      filteredData = filteredData?.filter((user) =>
+        Array.from(selectedKeys).includes(user?.status)
+      );
+    }
+
     return filteredData;
-  }, [getMemberData, filterValue]);
+  }, [getMemberData, filterValue, selectedKeys]);
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <div className="flex gap-3">
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                endContent={<ChevronDownIcon className="text-small w-5 h-5" />}
+                variant="flat"
+              >
+                Status
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={selectedKeys}
+              selectionMode="multiple"
+              onSelectionChange={setSelectedKeys}
+            >
+              {statusOptions?.map((status) => (
+                <DropdownItem key={status?.uid} className="capitalize">
+                  {capitalize(status?.name)}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -167,6 +220,7 @@ const MemberList = () => {
             onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
           />
+
           <div className="flex gap-3">
             <Button
               className="bg-foreground text-background"
@@ -186,44 +240,29 @@ const MemberList = () => {
         </div>
       </div>
     );
-  }, [filterValue, onSearchChange, getMemberData, hasSearchFilter]);
+  }, [
+    filterValue,
+    onSearchChange,
+    getMemberData,
+    hasSearchFilter,
+    selectedKeys,
+    setSelectedKeys,
+  ]);
 
   const sortedItems = React.useMemo(() => {
     return [...(filteredItems ?? [])].sort((a, b) => {
-      console.log(
-        "mjhgf5678dsdfghjk",
-        a,
-        sortDescriptor.column?.toLocaleLowerCase(),
-        a[sortDescriptor.column?.toLocaleLowerCase()]
+      const columnName = spaceToCamelCase(
+        sortDescriptor.column?.toLocaleLowerCase()
       );
-      const first = a[sortDescriptor.column?.toLocaleLowerCase()];
-      const second = b[sortDescriptor.column?.toLocaleLowerCase()];
+      console.log("mjhgf5678dsdfghjk", a, columnName, a[columnName]);
+      const first = a[columnName];
+      const second = b[columnName];
       const cmp = first < second ? -1 : first > second ? 1 : 0;
       console.log(first, second);
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, filteredItems]);
   console.log(sortDescriptor);
-
-  function daysUntilExpiration(date) {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-
-    const expirationDate = new Date(date);
-    expirationDate.setHours(0, 0, 0, 0);
-
-    // Calculate the difference in milliseconds
-    const difference = expirationDate.getTime() - currentDate.getTime();
-
-    // Convert milliseconds to days
-    const daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
-
-    if (daysDifference > 0) {
-      return daysDifference; // Return days left until expiration
-    } else {
-      return daysDifference; // Return days passed since expiration
-    }
-  }
 
   return (
     <div className="ml-4 mr-4">
@@ -293,39 +332,33 @@ const MemberList = () => {
                   {
                     <Chip
                       className="capitalize"
-                      color={
-                        daysUntilExpiration(item?.latestPayment?.endDate) >= 0
-                          ? "success"
-                          : "danger"
-                      }
+                      color={item?.status === "Active" ? "success" : "danger"}
                       size="md"
                       variant="flat"
                     >
-                      {daysUntilExpiration(item?.latestPayment?.endDate) >= 0
+                      {/* {daysUntilExpiration(item?.latestPayment?.endDate) >= 0
                         ? "Active"
-                        : "Expired"}
+                        : "Expired"} */}
+                      {item?.status}
                     </Chip>
                   }
                 </TableCell>
-                {/* <TableCell>{item?.latestPayment?.startDate}</TableCell> */}
                 <TableCell>
                   {/* {item?.latestPayment
-                    ? `${item?.latestPayment?.startDate} -
-                    ${item?.latestPayment?.endDate}`
-                    : "N/A"} */}
-                  {item?.latestPayment
                     ? getDifferenceInDays(item?.latestPayment?.endDate) +
                       " days"
-                    : "N/A"}
+                    : "N/A"} */}
+                  {item?.daysLeft >= 0 ? item?.daysLeft : "--"}
                 </TableCell>
                 <TableCell>
-                  {item?.latestPayment
+                  {/* {item?.latestPayment
                     ? "₹ " + item?.latestPayment?.amountDue
-                    : "N/A"}
+                    : "N/A"} */}
+                  {item?.amountDue >= 0 ? "₹ " + item?.amountDue : "--"}
                 </TableCell>
                 <TableCell>
                   <div className="flex flex-row gap-2">
-                    <span
+                    {/* <span
                       onClick={() => {
                         deleteMember(
                           JSON.stringify({
@@ -336,7 +369,7 @@ const MemberList = () => {
                       className="text-lg text-default-400 cursor-pointer active:opacity-50"
                     >
                       <EyeIcon className="h-5" />
-                    </span>
+                    </span> */}
                     <span
                       onClick={() => {
                         setIsModalOpen({

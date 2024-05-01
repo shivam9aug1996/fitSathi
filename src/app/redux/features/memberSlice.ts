@@ -1,4 +1,5 @@
 import { deleteCookies } from "@/app/actions";
+import { daysUntilExpiration, getDifferenceInDays } from "@/app/functions";
 import { createSlice } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -34,6 +35,28 @@ export const memberApi = createApi({
         },
       }),
       providesTags: ["memberList"],
+      transformResponse: (baseQueryReturnValue) => {
+        console.log("jhgfdsr898765", baseQueryReturnValue);
+        let arr = baseQueryReturnValue?.members?.map((item) => {
+          return {
+            ...item,
+            status:
+              daysUntilExpiration(item?.latestPayment?.endDate) >= 0
+                ? "Active"
+                : "Expired",
+            daysLeft:
+              daysUntilExpiration(item?.latestPayment?.endDate) >= 0
+                ? daysUntilExpiration(item?.latestPayment?.endDate) + 1
+                : -1,
+            amountDue: item?.latestPayment
+              ? item?.latestPayment?.amountDue
+              : -1,
+          };
+        });
+        return {
+          members: arr || [],
+        };
+      },
     }),
     deleteMember: builder.mutation({
       query: (data) => ({

@@ -68,6 +68,7 @@ const gymSlice = createSlice({
     // reduxStarted: false,
     selectedGymId: null,
     gymLoader: 0,
+    selectedGym: null,
   },
   reducers: {
     setGymIdSelected: (state, action) => {
@@ -112,6 +113,7 @@ const gymSlice = createSlice({
             // Check if the gym is primary
             if (gym?.isPrimary === true) {
               state.selectedGymId = gym?._id;
+              state.selectedGym = gym;
               //dispatch(setGymIdSelected(gym?._id));
               //return gym; // Return the primary gym
             }

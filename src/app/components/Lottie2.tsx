@@ -7,7 +7,9 @@ const Lottie2 = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div style={{ minHeight: 300, maxHeight: 300, maxWidth: 300 }}>
+    <div
+      style={{ minHeight: 300, maxHeight: 300, maxWidth: 300, minWidth: 300 }}
+    >
       {isLoading && (
         <Spinner
           label="Loading..."

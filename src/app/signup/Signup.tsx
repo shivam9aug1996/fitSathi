@@ -12,7 +12,9 @@ import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import useErrorNotification from "../hooks/useErrorNotification";
 
 const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -25,6 +27,8 @@ const Signup = () => {
   const router = useRouter();
   const [signup, { data, isLoading, isSuccess, isError, error: loginError }] =
     useSignupMutation();
+  useErrorNotification(loginError, isError);
+
   // useErrorNotification(loginError, isError);
 
   // useEffect(() => {
@@ -61,22 +65,43 @@ const Signup = () => {
   };
   const handleSignup = (e) => {
     e.preventDefault(); // Prevent form submission
-    if (validateForm()) {
-      // Perform sign-up logic here
-      console.log("Form submitted successfully");
-      signup(
-        JSON.stringify({
-          mobileNumber,
-          password,
-        })
-      )
-        ?.unwrap()
-        .then(() => {
-          router.replace("/");
-        });
-    } else {
-      console.log("Form validation failed");
+    if (mobileNumber.trim() === "") {
+      toast.error("Please fill in mobile number.");
+      return;
     }
+    if (password.trim() === "") {
+      toast.error("Please fill in password.");
+      return;
+    }
+    // Check if mobile number is a valid Indian mobile number
+    const mobileNumberRegex = /^[6-9]\d{9}$/;
+    if (!mobileNumber.match(mobileNumberRegex)) {
+      toast.error("Please enter a valid Indian mobile number");
+
+      return;
+    }
+
+    // Check if mobile number has a length of 10 digits
+    if (mobileNumber.length !== 10) {
+      toast.error("Mobile number should be 10 digits long");
+
+      return;
+    }
+    if (password.length < 4) {
+      toast.error("Password should be at least 4 characters long");
+
+      return;
+    }
+    signup(
+      JSON.stringify({
+        mobileNumber,
+        password,
+      })
+    )
+      ?.unwrap()
+      .then(() => {
+        router.replace("/");
+      });
   };
 
   return (
@@ -106,8 +131,7 @@ const Signup = () => {
             isRequired
             isClearable
             className="w-full"
-            isInvalid={!!error.mobileNumber}
-            errorMessage={error.mobileNumber}
+            maxLength={10}
             onClear={() => setMobileNumber("")}
           />
           <Input
@@ -119,8 +143,6 @@ const Signup = () => {
             isRequired
             isClearable
             className="w-full"
-            isInvalid={!!error.password}
-            errorMessage={error.password}
             onClear={() => setPassword("")}
           />
           <Button
