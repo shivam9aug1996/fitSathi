@@ -27,7 +27,7 @@ export default function RootLayout({
         <link rel="icon" href="/logo3.svg" sizes="any" />
         <Providers getCookies={getCookies}>
           <Header />
-          <div className="h-lvh overflow-hidden">{children}</div>
+          <div className="overflow-hidden h-screen">{children}</div>
           <Footer />
         </Providers>
       </body>
