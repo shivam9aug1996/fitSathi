@@ -4,9 +4,13 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GymList from "../dashboard/GymList";
-import { useLogoutMutation } from "../redux/features/authSlice";
+import { authApi, useLogoutMutation } from "../redux/features/authSlice";
+import { gymApi } from "../redux/features/gymSlice";
+import { memberApi } from "../redux/features/memberSlice";
+import { paymentApi } from "../redux/features/paymentSlice";
+import { planApi } from "../redux/features/planSlice";
 import HeaderNavLink from "./HeaderNavLink";
 import Logo from "./Logo";
 
@@ -15,6 +19,7 @@ const Header = () => {
   const userId = useSelector((state) => state?.auth?.userData?.userId);
   const reduxStarted = useSelector((state) => state?.auth?.reduxStarted);
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const [
     logout,
     {
@@ -25,14 +30,18 @@ const Header = () => {
       data: logoutData,
     },
   ] = useLogoutMutation();
-  // useEffect(() => {
-  //   if (isLogoutSuccess) {
-  //     router.push("/");
-  //     // window.location.href =
-  //     //   window.location.hostname +
-  //     //   `/login?message=${encodeURIComponent("token not exists")}`;
-  //   }
-  // }, [isLogoutSuccess]);
+  useEffect(() => {
+    if (isLogoutSuccess) {
+      // window.location.href("/");
+      router.replace("/");
+      // setTimeout(() => {
+      //   router.refresh();
+      // }, 2000);
+      // window.location.href =
+      //   window.location.hostname +
+      //   `/login?message=${encodeURIComponent("token not exists")}`;
+    }
+  }, [isLogoutSuccess]);
 
   return (
     // <div className="flex space-x-2">
@@ -72,12 +81,12 @@ const Header = () => {
               </>
             ) : (
               <div className="flex flex-col">
-                <GymList />
+                <GymList logout={logout} isLogoutLoading={isLogoutLoading} />
               </div>
             )
           ) : pathname.includes("/dashboard") ? (
             <div className="flex flex-col">
-              <GymList />
+              <GymList logout={logout} isLogoutLoading={isLogoutLoading} />
             </div>
           ) : (
             <>

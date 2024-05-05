@@ -22,7 +22,7 @@ import { useLogoutMutation } from "../redux/features/authSlice";
 import useErrorNotification from "../hooks/useErrorNotification";
 import DeleteModal from "../components/DeleteModal";
 
-const GymList = () => {
+const GymList = ({ logout, isLogoutLoading }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const userId = useSelector((state) => state?.auth?.userData?.userId || null);
@@ -57,16 +57,16 @@ const GymList = () => {
       data: updateGymData,
     },
   ] = useUpdateGymMutation();
-  const [
-    logout,
-    {
-      isSuccess: isLogoutSuccess,
-      isLoading: isLogoutLoading,
-      isError: isLogoutError,
-      error: logoutError,
-      data: logoutData,
-    },
-  ] = useLogoutMutation();
+  // const [
+  //   logout,
+  //   {
+  //     isSuccess: isLogoutSuccess,
+  //     isLoading: isLogoutLoading,
+  //     isError: isLogoutError,
+  //     error: logoutError,
+  //     data: logoutData,
+  //   },
+  // ] = useLogoutMutation();
   const [
     deleteGym,
     {
@@ -83,6 +83,17 @@ const GymList = () => {
 
   console.log("sdfghj", getGymData);
   const { gyms } = getGymData || [];
+
+  // useEffect(() => {
+  //   if (isLogoutSuccess) {
+  //     setTimeout(() => {
+  //       window.location.href("/");
+  //     }, 2000);
+  //     // router.replace("/");
+  //     //router.push("/kjhgfd");
+  //   }
+  // }, [isLogoutSuccess]);
+
   useEffect(() => {
     if (isGetGymSuccess) {
       for (const gym of gyms) {
@@ -223,9 +234,7 @@ const GymList = () => {
           onClick={() => {
             logout()
               .unwrap()
-              .then(() => {
-                router.push("/");
-              });
+              .then(() => {});
           }}
         >
           Logout
