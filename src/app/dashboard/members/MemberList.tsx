@@ -39,7 +39,7 @@ import {
   useGetMemberListQuery,
 } from "@/app/redux/features/memberSlice";
 import MembershipModal from "./MembershipModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   capitalize,
   daysUntilExpiration,
@@ -79,6 +79,12 @@ const MemberList = () => {
   const [filterValue, setFilterValue] = useState("");
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isActive = searchParams.get("isActive");
+  const startRange = searchParams.get("startRange");
+  const endRange = searchParams.get("endRange");
+
+  console.log("kjhgo8765", isActive, typeof isActive);
   const [isModalOpen, setIsModalOpen] = useState({
     status: false,
     type: "",
@@ -115,15 +121,27 @@ const MemberList = () => {
     isError: isGetMemberError,
     error: getMemberError,
     data: getMemberData,
+    isFetching,
   } = useGetMemberListQuery(
     {
       gymId: gymId,
+      isActive: isActive,
+      startRange: startRange,
+      endRange: endRange,
     },
-    { skip: !gymId }
+    { skip: !gymId || !(isActive === "true" || isActive === "false") }
   );
-  console.log("uyrfghjk", gymId);
+  // console.log("uyrfghjk", selectedKeys);
   useErrorNotification(deleteMemberError, isDeleteMemberError);
   useErrorNotification(getMemberError, isGetMemberError);
+
+  // useEffect(() => {
+  //   if (isActive) {
+  //     setSelectedKeys(new Set(["Active"]));
+  //   } else {
+  //     setSelectedKeys(new Set(["Expired"]));
+  //   }
+  // }, [isActive]);
 
   useEffect(() => {
     if (gymLoader === 2) {
@@ -153,7 +171,6 @@ const MemberList = () => {
       setFilterValue("");
     }
   }, []);
-  console.log("jhgfffghjkghj", selectedKeys);
 
   const filteredItems = useMemo(() => {
     let filteredData = [...(getMemberData?.members ?? [])];
@@ -164,21 +181,21 @@ const MemberList = () => {
       );
     }
 
-    if (
-      !(selectedKeys.has("Active") && selectedKeys.has("Expired")) &&
-      Array.from(selectedKeys).length !== statusOptions.length
-    ) {
-      filteredData = filteredData?.filter((user) =>
-        Array.from(selectedKeys).includes(user?.status)
-      );
-    }
+    // if (
+    //   !(selectedKeys.has("Active") && selectedKeys.has("Expired")) &&
+    //   Array.from(selectedKeys).length !== statusOptions.length
+    // ) {
+    //   filteredData = filteredData?.filter((user) =>
+    //     Array.from(selectedKeys).includes(user?.status)
+    //   );
+    // }
 
     return filteredData;
   }, [getMemberData, filterValue, selectedKeys]);
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="flex gap-3">
+        {/* <div className="flex gap-3">
           <Dropdown>
             <DropdownTrigger>
               <Button
@@ -193,7 +210,10 @@ const MemberList = () => {
               closeOnSelect={false}
               selectedKeys={selectedKeys}
               selectionMode="multiple"
-              onSelectionChange={setSelectedKeys}
+              onSelectionChange={(e) => {
+                console.log("hiiii", e);
+                setSelectedKeys(e);
+              }}
             >
               {statusOptions?.map((status) => (
                 <DropdownItem key={status?.uid} className="capitalize">
@@ -202,7 +222,7 @@ const MemberList = () => {
               ))}
             </DropdownMenu>
           </Dropdown>
-        </div>
+        </div> */}
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -317,8 +337,8 @@ const MemberList = () => {
               ? "No data found"
               : ""
           }
-          isLoading={isGetMemberLoading || !gymId}
-          loadingContent={<TableLoader wrapperStyle={{ marginTop: 130 }} />}
+          isLoading={isGetMemberLoading || !gymId || isFetching}
+          loadingContent={<TableLoader />}
           items={sortedItems ?? []}
         >
           {(item) => {

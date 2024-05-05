@@ -32,6 +32,9 @@ export const memberApi = createApi({
         method: "GET",
         params: {
           gymId: data?.gymId,
+          isActive: data?.isActive,
+          startRange: data?.startRange,
+          endRange: data?.endRange,
         },
       }),
       providesTags: ["memberList"],

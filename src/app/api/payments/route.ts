@@ -6,8 +6,15 @@ import { connectDB } from "../lib/dbconnection";
 
 export async function POST(req, res) {
   try {
-    const { memberId, startDate, endDate, amountPaid, amountDue, paymentDate } =
-      await req.json();
+    const {
+      memberId,
+      startDate,
+      endDate,
+      amountPaid,
+      amountDue,
+      paymentDate,
+      gymId,
+    } = await req.json();
 
     if (
       !memberId ||
@@ -15,7 +22,8 @@ export async function POST(req, res) {
       !endDate ||
       !amountPaid ||
       !amountDue ||
-      !paymentDate
+      !paymentDate ||
+      !gymId
     ) {
       return NextResponse.json(
         { message: "Missing required fields" },
@@ -32,6 +40,7 @@ export async function POST(req, res) {
       amountPaid,
       amountDue,
       paymentDate,
+      gymId,
     });
     const paymentId = result.insertedId;
     const currentDate = new Date();
@@ -50,6 +59,7 @@ export async function POST(req, res) {
               amountPaid,
               amountDue,
               paymentDate,
+              gymId,
             },
           },
         }
@@ -174,12 +184,12 @@ export async function GET(req, res) {
   try {
     const memberId = new URL(req.url)?.searchParams?.get("memberId");
 
-    if (!memberId) {
-      return NextResponse.json(
-        { message: "Missing required field: memberId" },
-        { status: 400 }
-      );
-    }
+    // if (!memberId) {
+    //   return NextResponse.json(
+    //     { message: "Missing required field: memberId" },
+    //     { status: 400 }
+    //   );
+    // }
 
     const db = await connectDB(req);
 

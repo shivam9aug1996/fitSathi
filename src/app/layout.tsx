@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
+import NextTopLoader from "nextjs-toploader";
+
 import { getCookies } from "./actions";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -25,10 +27,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <link rel="icon" href="/logo3.svg" sizes="any" />
+        <NextTopLoader height={5} color="rgb(175 121 149)" />
         <Providers getCookies={getCookies}>
           <Header />
-          <div className="overflow-hidden h-screen">{children}</div>
-          <Footer />
+          <div>{children}</div>
+          {/* <Footer /> */}
         </Providers>
       </body>
     </html>

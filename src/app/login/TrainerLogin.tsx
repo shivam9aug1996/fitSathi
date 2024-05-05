@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import Lottie2 from "../components/Lottie2";
 import useErrorNotification from "../hooks/useErrorNotification";
+import { setGymIdSelected } from "../redux/features/gymSlice";
 
 const TrainerLogin = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -84,8 +85,11 @@ const TrainerLogin = () => {
       })
     )
       ?.unwrap()
-      .then(() => {
+      .then((res) => {
         router.replace("/dashboard");
+        console.log("i8765redfghjk", res?.userData?.primaryGymData?._id);
+        // if (res?.userData?.primaryGymData?._id)
+        dispatch(setGymIdSelected(res?.userData?.primaryGymData?._id));
       });
   };
 

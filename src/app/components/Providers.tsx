@@ -9,6 +9,7 @@ import { setAuth } from "../redux/features/authSlice";
 import store from "../redux/store";
 
 import { NextUIProvider } from "@nextui-org/react";
+import { setGymIdSelected } from "../redux/features/gymSlice";
 
 const Providers = ({ children, getCookies }: any) => {
   useLayoutEffect(() => {
@@ -17,6 +18,13 @@ const Providers = ({ children, getCookies }: any) => {
   const getCookie = async () => {
     let data = await getCookies();
     store.dispatch(setAuth(data));
+    // console.log("87trfghj", data);
+    // let userData = data?.userData;
+    // let parsedData = JSON.parse(userData);
+    // console.log("i876redfghj", parsedData);
+    // if (parsedData) {
+    //   store.dispatch(setGymIdSelected(parsedData?.primaryGymData?._id));
+    // }
   };
   return (
     <Provider store={store}>

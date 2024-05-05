@@ -1,4 +1,5 @@
 // app/api/plan.js
+import { daysUntilExpiration, isExpiringInDays } from "@/app/functions";
 import { ObjectId } from "mongodb";
 
 import { NextResponse } from "next/server";
@@ -44,7 +45,10 @@ export async function POST(req, res) {
 export async function GET(req, res) {
   try {
     const gymId = new URL(req.url)?.searchParams?.get("gymId");
-
+    const isActive = new URL(req.url)?.searchParams?.get("isActive");
+    const startRange = new URL(req.url)?.searchParams?.get("startRange");
+    const endRange = new URL(req.url)?.searchParams?.get("endRange");
+    console.log("uytdfghjk", isActive);
     if (!gymId) {
       return NextResponse.json(
         { message: "Missing required field: gymId" },
@@ -53,11 +57,38 @@ export async function GET(req, res) {
     }
 
     const db = await connectDB(req);
-
     // Fetch all members of the specified gym from the database
     const members = await db.collection("members").find({ gymId }).toArray();
-
-    return NextResponse.json({ members }, { status: 200 });
+    let activeMembers = [];
+    let expiredMembers = [];
+    console.log("8765r8888888888fghj", startRange, endRange);
+    if (startRange && endRange && startRange !== "null") {
+      activeMembers = members?.filter((member) => {
+        return daysUntilExpiration(member?.latestPayment?.endDate) >= 0;
+      });
+      const expiringInDays = activeMembers?.filter((member) =>
+        isExpiringInDays(member?.latestPayment?.endDate, startRange, endRange)
+      );
+      console.log("8765redfghjk", expiringInDays);
+      return NextResponse.json({ members: expiringInDays }, { status: 200 });
+    } else if (isActive === true || isActive === "true") {
+      activeMembers = members?.filter((member) => {
+        return daysUntilExpiration(member?.latestPayment?.endDate) >= 0;
+      });
+      return NextResponse.json({ members: activeMembers }, { status: 200 });
+    } else if (isActive === false || isActive === "false") {
+      expiredMembers = members?.filter((member) => {
+        return (
+          daysUntilExpiration(member?.latestPayment?.endDate) < 0 ||
+          !member?.latestPayment
+        );
+      });
+      console.log("76redfghj", expiredMembers);
+      return NextResponse.json({ members: expiredMembers }, { status: 200 });
+    } else {
+      const members = await db.collection("members").find({ gymId }).toArray();
+      return NextResponse.json({ members }, { status: 200 });
+    }
   } catch (error) {
     console.log("Error fetching members:", error);
     return NextResponse.json(

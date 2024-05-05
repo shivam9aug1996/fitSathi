@@ -64,6 +64,8 @@ export async function POST(req, res) {
       JSON.stringify({
         mobileNumber,
         userId: result.insertedId,
+        primaryGymData: null,
+        numOfPlansOfPrimaryGym: 0,
       }),
       {
         expires: expirationDate,
@@ -78,6 +80,8 @@ export async function POST(req, res) {
         userData: {
           mobileNumber,
           userId: result.insertedId,
+          primaryGymData: null,
+          numOfPlansOfPrimaryGym: 0,
         },
       },
       { status: 201 }

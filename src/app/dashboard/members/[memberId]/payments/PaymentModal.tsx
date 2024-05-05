@@ -97,6 +97,10 @@ export const PaymentModal = ({ isModalOpen, setIsModalOpen }) => {
       dispatch(memberApi.util.invalidateTags(["memberList"]));
       dispatch(gymApi.util.invalidateTags(["dashboard"]));
       closeModal();
+      console.log("o987654edfghjkl");
+      // setTimeout(() => {
+      //   closeModal();
+      // }, 500);
     }
   }, [isCreatePaymentSuccess, isUpdatePaymentSuccess]);
   console.log(isModalOpen, value);
@@ -224,6 +228,7 @@ export const PaymentModal = ({ isModalOpen, setIsModalOpen }) => {
           amountPaid: formData?.amountPaid,
           amountDue: formData?.amountDue,
           paymentDate: formData?.paymentDate,
+          gymId: selectedGymId,
         })
       );
     }

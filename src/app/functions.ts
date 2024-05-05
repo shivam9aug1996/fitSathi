@@ -58,3 +58,18 @@ export function spaceToCamelCase(str) {
 export function capitalize(str) {
   return str?.charAt(0)?.toUpperCase() + str?.slice(1);
 }
+
+export const isExpiringInDays = (endDate, minDays, maxDays) => {
+  const daysUntilExpiry = daysUntilExpiration(endDate) + 1;
+  console.log("kjuytr", daysUntilExpiry, minDays, maxDays);
+  return daysUntilExpiry >= minDays && daysUntilExpiry <= maxDays;
+};
+
+export const formattedValue = (value) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "INR",
+    notation: "compact",
+    compactDisplay: "short",
+  }).format(value);
+};

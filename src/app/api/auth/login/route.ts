@@ -54,6 +54,22 @@ export async function POST(req, res) {
         { status: 401 }
       );
     }
+    let primaryGymData = null;
+    let numOfPlansOfPrimaryGym = 0;
+    console.log("8765redfghjk", user?._id);
+    const primaryGym = await db
+      .collection("gyms")
+      .findOne({ userId: user?._id?.toString() });
+    console.log("i8765rfghjk", primaryGym);
+    primaryGymData = primaryGym;
+
+    if (primaryGym) {
+      const plans = await db
+        .collection("plans")
+        .find({ gymId: primaryGym?._id?.toString() })
+        .toArray();
+      numOfPlansOfPrimaryGym = plans?.length;
+    }
 
     const token = jwt.sign({ id: user._id }, secretKey);
     let now = new Date();
@@ -70,6 +86,8 @@ export async function POST(req, res) {
         mobileNumber,
         userId: user?._id,
         name: user?.name,
+        primaryGymData,
+        numOfPlansOfPrimaryGym,
       }),
       {
         expires: expirationDate,
@@ -84,6 +102,8 @@ export async function POST(req, res) {
           mobileNumber,
           userId: user?._id,
           name: user?.name,
+          primaryGymData,
+          numOfPlansOfPrimaryGym,
         },
         token,
       },

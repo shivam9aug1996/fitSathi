@@ -113,6 +113,7 @@ const PaymentList = ({ memberId }) => {
   useEffect(() => {
     if (isDeletePaymentSuccess) {
       dispatch(memberApi.util.invalidateTags(["memberList"]));
+      dispatch(gymApi.util.invalidateTags(["dashboard"]));
       setIsDeleteModalOpen({
         ...isDeleteModalOpen,
         status: false,
