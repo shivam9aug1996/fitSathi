@@ -13,14 +13,10 @@ export const formatDate = (dateString, format = "DD-MM-YYYY") => {
 
 export function isDateInRange(startDateStr, endDateStr) {
   const currentDateStr = moment().format("YYYY-MM-DD");
-  const startDate = moment(startDateStr, "YYYY-MM-DD");
-  const endDate = moment(endDateStr, "YYYY-MM-DD");
-  return moment(currentDateStr, "YYYY-MM-DD").isBetween(
-    startDate,
-    endDate,
-    null,
-    "[]"
-  );
+  const startDate = moment(startDateStr).format("YYYY-MM-DD");
+  const endDate = moment(endDateStr).format("YYYY-MM-DD");
+  console.log("98743ertyuio", currentDateStr, startDate, endDate);
+  return moment(currentDateStr).isBetween(startDate, endDate, null, "[]");
 }
 
 export function getDifferenceInDays(endDate) {
