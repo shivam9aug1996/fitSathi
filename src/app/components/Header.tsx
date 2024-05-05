@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import GymList from "../dashboard/GymList";
+import { isDateInRange } from "../functions";
 import { authApi, useLogoutMutation } from "../redux/features/authSlice";
 import { gymApi } from "../redux/features/gymSlice";
 import { memberApi } from "../redux/features/memberSlice";
@@ -31,6 +32,7 @@ const Header = () => {
     },
   ] = useLogoutMutation();
   useEffect(() => {
+    // console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-06-05"));
     if (isLogoutSuccess) {
       // window.location.href("/");
       router.replace("/");
