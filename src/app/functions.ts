@@ -13,7 +13,7 @@ export const formatDate = (dateString, format = "DD-MM-YYYY") => {
 
 export function isDateInRange(startDate, endDate) {
   const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
+  //currentDate.setHours(0, 0, 0, 0);
 
   const startDate1 = new Date(startDate);
   startDate1.setHours(0, 0, 0, 0);
