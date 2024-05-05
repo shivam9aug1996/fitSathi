@@ -8,6 +8,7 @@ import {
   useLoginMutation,
   useSignupMutation,
 } from "@/app/redux/features/authSlice";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,7 +29,7 @@ const Signup = () => {
   const [signup, { data, isLoading, isSuccess, isError, error: loginError }] =
     useSignupMutation();
   useErrorNotification(loginError, isError);
-
+  const [isVisible, setIsVisible] = useState(false);
   // useErrorNotification(loginError, isError);
 
   // useEffect(() => {
@@ -37,6 +38,8 @@ const Signup = () => {
   //     router.replace("/trainer/dashboard");
   //   }
   // }, [isSuccess]);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const validateForm = () => {
     let isValid = true;
@@ -136,14 +139,26 @@ const Signup = () => {
           />
           <Input
             autoComplete="false"
+            type={isVisible ? "text" : "password"}
             value={password}
             onChange={handlePassword}
-            type="password"
+            type={isVisible ? "text" : "password"}
             label="Password"
             isRequired
-            isClearable
             className="w-full"
-            onClear={() => setPassword("")}
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {!isVisible ? (
+                  <EyeSlashIcon className="h-5 w-5 pointer-events-none" />
+                ) : (
+                  <EyeIcon className="h-5 w-5 pointer-events-none" />
+                )}
+              </button>
+            }
           />
           <Button
             isLoading={isLoading}
