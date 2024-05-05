@@ -32,7 +32,7 @@ const Header = () => {
     },
   ] = useLogoutMutation();
   useEffect(() => {
-    // console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-06-05"));
+    console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-04-20"));
     if (isLogoutSuccess) {
       // window.location.href("/");
       router.replace("/");
