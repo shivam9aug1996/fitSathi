@@ -12,15 +12,14 @@ export const formatDate = (dateString, format = "DD-MM-YYYY") => {
 };
 
 export function isDateInRange(startDate, endDate) {
-  // const currentDate = moment().startOf("day");
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
-  let currentDate1 = moment(currentDate);
-  const startDate1 = moment(startDate);
-  const endDate1 = moment(endDate);
-  return currentDate1.isBetween(startDate1, endDate1, null, "[]");
 
-  //return currentDate.isBetween(startDate1, endDate1, null, "[ ]");
+  const startDate1 = new Date(startDate);
+  startDate1.setHours(0, 0, 0, 0);
+  const endDate1 = new Date(endDate);
+  endDate1.setHours(0, 0, 0, 0);
+  return currentDate >= startDate1 && currentDate <= endDate1;
 }
 
 export function getDifferenceInDays(endDate) {

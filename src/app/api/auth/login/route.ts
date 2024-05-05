@@ -77,8 +77,8 @@ export async function POST(req, res) {
 
     cookies().set("gym_app_user_token", token, {
       expires: expirationDate,
-      httpOnly: true,
-      secure: true,
+      // httpOnly: true,
+      // secure: true,
     });
     cookies().set(
       "gym_app_user_data",
@@ -91,8 +91,8 @@ export async function POST(req, res) {
       }),
       {
         expires: expirationDate,
-        httpOnly: true,
-        secure: true,
+        // httpOnly: true,
+        // secure: true,
       }
     );
 

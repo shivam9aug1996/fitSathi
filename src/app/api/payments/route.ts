@@ -90,7 +90,16 @@ export async function PUT(req, res) {
       amountDue,
       paymentDate,
     } = await req.json();
-
+    console.log(
+      "iu765redfghuj",
+      paymentId,
+      memberId,
+      startDate,
+      endDate,
+      amountPaid,
+      amountDue,
+      paymentDate
+    );
     if (
       !paymentId ||
       !memberId ||
@@ -138,6 +147,7 @@ export async function PUT(req, res) {
       .findOne({ _id: new ObjectId(memberId) });
 
     if (isDateInRange(startDate, endDate)) {
+      console.log("o987654erfghjko987654567890987654567890987654");
       // Update the member's latest payment details
       await db.collection("members").updateOne(
         { _id: new ObjectId(memberId) },
