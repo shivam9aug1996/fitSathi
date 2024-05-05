@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 export const getCurrentDate = (daysToAdd = 0) => {
   return moment().add(daysToAdd, "days").format("YYYY-MM-DD");
 };
@@ -12,7 +12,7 @@ export const formatDate = (dateString, format = "DD-MM-YYYY") => {
 };
 
 export function isDateInRange(startDateStr, endDateStr) {
-  const currentDateStr = moment().format("YYYY-MM-DD");
+  const currentDateStr = moment().tz("Asia/Kolkata").format("YYYY-MM-DD");
   const startDate = moment(startDateStr).format("YYYY-MM-DD");
   const endDate = moment(endDateStr).format("YYYY-MM-DD");
   console.log("98743ertyuio", currentDateStr, startDate, endDate);
