@@ -35,8 +35,8 @@ const Header = () => {
     console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
     if (isLogoutSuccess) {
       //router.push("/");
-
-      window.location.replace("/");
+      window.location.href = `/login?message=logout`;
+      //  window.location.replace("/");
     }
   }, [isLogoutSuccess]);
 
