@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteCookies } from "../actions";
 import GymList from "../dashboard/GymList";
 import { isDateInRange } from "../functions";
 import { authApi, useLogoutMutation } from "../redux/features/authSlice";
@@ -34,9 +35,11 @@ const Header = () => {
   useEffect(() => {
     console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
     if (isLogoutSuccess) {
+      deleteCookies();
       setTimeout(() => {
-        router.push("/?message=logout");
-      }, 500);
+        console.log("8765r887654567876567865678fgh");
+        router.push(`/login?message=logout`);
+      }, 100);
       // router.push(`/login?message=logout`);
       //window.location.href = `/login?message=logout`;
       //  window.location.replace("/");
