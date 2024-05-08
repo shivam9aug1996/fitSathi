@@ -34,8 +34,8 @@ const Header = () => {
   useEffect(() => {
     console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
     if (isLogoutSuccess) {
-      dispatch(authApi.util.resetApiState());
-      // window.location.href("/");
+      //dispatch(authApi.util.resetApiState());
+
       router.replace("/");
     }
   }, [isLogoutSuccess]);
