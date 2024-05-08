@@ -80,7 +80,9 @@ export const MembershipModal = ({ isModalOpen, setIsModalOpen }) => {
   useEffect(() => {
     if (isCreateMemberSuccess || isUpdateMemberSuccess) {
       dispatch(gymApi.util.invalidateTags(["dashboard"]));
-      router.replace("/dashboard/members?isActive=false");
+      if (isCreateMemberSuccess) {
+        router.replace("/dashboard/members?isActive=false");
+      }
       closeModal();
     }
   }, [isCreateMemberSuccess, isUpdateMemberSuccess]);
