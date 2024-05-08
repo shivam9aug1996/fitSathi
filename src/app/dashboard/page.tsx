@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import CreateGym from "../components/CreateGym";
 import Header from "../components/Header";
 import GymDashboard from "./GymDashboard";
@@ -8,8 +8,9 @@ const page = () => {
   return (
     <>
       {/* <GymList /> */}
-
-      <GymDashboard />
+      <Suspense>
+        <GymDashboard />
+      </Suspense>
     </>
   );
 };
