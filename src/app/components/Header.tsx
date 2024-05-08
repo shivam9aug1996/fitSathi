@@ -34,7 +34,9 @@ const Header = () => {
   useEffect(() => {
     console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
     if (isLogoutSuccess) {
-      window.location.href = "/";
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 100);
     }
   }, [isLogoutSuccess]);
 
