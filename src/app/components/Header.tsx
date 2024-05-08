@@ -36,7 +36,7 @@ const Header = () => {
     if (isLogoutSuccess) {
       //dispatch(authApi.util.resetApiState());
 
-      router.replace("/");
+      router.push("/");
     }
   }, [isLogoutSuccess]);
 
