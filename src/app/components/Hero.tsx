@@ -1,9 +1,8 @@
 "use client";
 import { Button } from "@nextui-org/react";
 import dynamic from "next/dynamic";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
-import { deleteCookies } from "../actions";
+import { useRouter } from "next/navigation";
+import React from "react";
 import Logo from "./Logo";
 import Lottie1 from "./Lottie1";
 const Params = dynamic(() => import("../components/Params"), {
@@ -12,14 +11,7 @@ const Params = dynamic(() => import("../components/Params"), {
 
 const Hero = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const search = searchParams.get("message");
-    if (search == "logout") {
-      router.refresh();
-    }
-  }, [router, searchParams, pathname]);
+
   return (
     <div className="flex flex-col justify-center items-center bg-white-100">
       <div
