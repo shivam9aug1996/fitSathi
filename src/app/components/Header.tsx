@@ -37,12 +37,6 @@ const Header = () => {
       dispatch(authApi.util.resetApiState());
       // window.location.href("/");
       router.replace("/");
-      // setTimeout(() => {
-      //   router.refresh();
-      // }, 2000);
-      // window.location.href =
-      //   window.location.hostname +
-      //   `/login?message=${encodeURIComponent("token not exists")}`;
     }
   }, [isLogoutSuccess]);
 
