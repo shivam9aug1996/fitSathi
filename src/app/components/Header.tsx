@@ -38,8 +38,8 @@ const Header = () => {
       deleteCookies();
       setTimeout(() => {
         console.log("8765r887654567876567865678fgh");
-        router.push(`/login?message=logout`);
-      }, 100);
+        router.push(`/?message=logout`);
+      }, 500);
       // router.push(`/login?message=logout`);
       //window.location.href = `/login?message=logout`;
       //  window.location.replace("/");
