@@ -1,10 +1,14 @@
 "use client";
 import { Button } from "@nextui-org/react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { deleteCookies } from "../actions";
 import Logo from "./Logo";
 import Lottie1 from "./Lottie1";
+const Params = dynamic(() => import("../components/Params"), {
+  ssr: false,
+});
 
 const Hero = () => {
   const router = useRouter();
@@ -37,6 +41,7 @@ const Hero = () => {
           Get Started Now
         </Button>
       </div>
+      <Params />
       <Lottie1 />
     </div>
   );
