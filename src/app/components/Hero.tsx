@@ -12,8 +12,6 @@ const Hero = () => {
   const searchParams = useSearchParams();
   useEffect(() => {
     const search = searchParams.get("message");
-    deleteCookies();
-
     if (search == "logout") {
       router.refresh();
     }
