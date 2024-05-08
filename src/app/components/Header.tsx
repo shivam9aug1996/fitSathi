@@ -36,7 +36,7 @@ const Header = () => {
     if (isLogoutSuccess) {
       //router.push("/");
 
-      window.location.href = window.location.hostname + "/";
+      window.location.replace("/");
     }
   }, [isLogoutSuccess]);
 
