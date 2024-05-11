@@ -103,7 +103,7 @@ const Signup = () => {
     )
       ?.unwrap()
       .then(() => {
-        router.replace("/");
+        router.replace("/dashboard");
       });
   };
 
