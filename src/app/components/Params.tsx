@@ -8,9 +8,9 @@ const Params = () => {
   useEffect(() => {
     const search = searchParams.get("message");
     if (search == "logout") {
-      router.refresh();
+      window.location.href = "/";
     }
-  }, [router, searchParams, pathname]);
+  }, [searchParams]);
   return null;
 };
 

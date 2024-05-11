@@ -235,7 +235,7 @@ const GymList = ({ logout, isLogoutLoading }) => {
             logout()
               .unwrap()
               .then(() => {
-                router.push("/logout");
+                router.push("/?message=logout");
               });
           }}
         >

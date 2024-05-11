@@ -23,15 +23,16 @@ const page = () => {
     },
   ] = useLogoutMutation();
   useEffect(() => {
-    if (!userId) {
-      // router.push("/");
-      window.location.href = "/";
-    }
-    logout()
-      ?.unwrap()
-      ?.then(() => {
-        window.location.href = "/";
-      });
+    router.replace("/");
+    // if (!userId) {
+    //   // router.push("/");
+    //   window.location.href = "/";
+    // }
+    // logout()
+    //   ?.unwrap()
+    //   ?.then(() => {
+    //     router.replace("/");
+    //   });
   }, []);
   return null;
 };
