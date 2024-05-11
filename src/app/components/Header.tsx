@@ -32,19 +32,19 @@ const Header = () => {
       data: logoutData,
     },
   ] = useLogoutMutation();
-  useEffect(() => {
-    console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
-    if (isLogoutSuccess) {
-      deleteCookies();
-      setTimeout(() => {
-        console.log("8765r887654567876567865678fgh");
-        router.push(`/?message=logout`);
-      }, 500);
-      // router.push(`/login?message=logout`);
-      //window.location.href = `/login?message=logout`;
-      //  window.location.replace("/");
-    }
-  }, [isLogoutSuccess]);
+  // useEffect(() => {
+  //   console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
+  //   if (isLogoutSuccess) {
+  //     deleteCookies();
+  //     setTimeout(() => {
+  //       console.log("8765r887654567876567865678fgh");
+  //       router.push(`/?message=logout`);
+  //     }, 500);
+  //     // router.push(`/login?message=logout`);
+  //     //window.location.href = `/login?message=logout`;
+  //     //  window.location.replace("/");
+  //   }
+  // }, [isLogoutSuccess]);
 
   return (
     // <div className="flex space-x-2">

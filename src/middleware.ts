@@ -14,15 +14,16 @@ export async function middleware(request: NextRequest) {
   // let userRole = userData ? JSON.parse(userData)?.role : "";
   console.log("mjhgfghjklkgfghjkl", userToken, userData);
   if (!userToken) {
-    if (currentPath.startsWith("/dashboard")) {
+    if (currentPath === "/logout") {
+      return NextResponse.redirect(new URL(`/`, request.url));
+    } else if (currentPath.startsWith("/dashboard")) {
       let message = "token not exists";
       // User is not authenticated and trying to access a dashboard route, redirect to login
       // return NextResponse.redirect(
       //   new URL(`/login?message=${encodeURIComponent(message)}`, request.url)
       // );
       return NextResponse.redirect(new URL(`/`, request.url));
-    }
-    if (
+    } else if (
       currentPath.startsWith("/api") &&
       !currentPath.includes("/api/auth/signup") &&
       !currentPath.includes("/api/auth/login") &&
@@ -73,6 +74,7 @@ export const config = {
     "/login",
     "/",
     "/signup",
+    "/logout",
     // "/whatsapp-script.js",
   ],
 };

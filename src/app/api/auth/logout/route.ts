@@ -10,8 +10,8 @@ export async function POST(req, res) {
       );
     }
 
-    // cookies().delete("gym_app_user_token");
-    // cookies().delete("gym_app_user_data");
+    cookies().delete("gym_app_user_token");
+    cookies().delete("gym_app_user_data");
 
     return NextResponse.json({ message: "logout successful" }, { status: 200 });
   } catch (error) {
