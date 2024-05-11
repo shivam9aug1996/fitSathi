@@ -8,6 +8,7 @@ export const paymentApi = createApi({
     baseUrl: "/api",
   }),
   tagTypes: ["paymentList"],
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     createPayment: builder.mutation({
       query: (data) => ({

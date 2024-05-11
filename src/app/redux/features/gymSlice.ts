@@ -10,6 +10,7 @@ export const gymApi = createApi({
     //   headers.set("user-fingerprint", await getFp());
     // },
   }),
+  refetchOnReconnect: true,
   tagTypes: ["gymList", "dashboard"],
   endpoints: (builder) => ({
     createGym: builder.mutation({

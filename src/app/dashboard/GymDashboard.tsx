@@ -1,16 +1,28 @@
 "use client";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { Button, Card, CardBody, Skeleton, Spinner } from "@nextui-org/react";
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
-import AddPlan from "../components/AddPlan";
+// import AddPlan from "../components/AddPlan";
 import Back from "../components/Back";
-import CreateGym from "../components/CreateGym";
+import Loader from "../components/Loader";
+// import CreateGym from "../components/CreateGym";
+const CreateGym = dynamic(() => import("../components/CreateGym"), {
+  ssr: false,
+});
+const AddPlan = dynamic(() => import("../components/AddPlan"), {
+  ssr: false,
+});
 import useErrorNotification from "../hooks/useErrorNotification";
 import { useGetDashboardDetailsQuery } from "../redux/features/gymSlice";
-import DashboardItem from "./DashboardItem";
 import DashboardItemLoading from "./DashboardItemLoading";
+// import DashboardItem from "./DashboardItem";
+const DashboardItem = dynamic(() => import("./DashboardItem"), {
+  ssr: false,
+  loading: () => <DashboardItemLoading title={"Sample text"} />,
+});
 import DashboardLoader from "./DashboardLoader";
 
 const GymDashboard = () => {

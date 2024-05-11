@@ -1,6 +1,11 @@
+import dynamic from "next/dynamic";
 import React from "react";
-import PlanList from "./PlanList";
-
+import Loader from "./loading";
+// import PlanList from "./PlanList";
+const PlanList = dynamic(() => import("./PlanList"), {
+  ssr: false,
+  loading: () => <Loader />,
+});
 const page = () => {
   return <PlanList />;
 };

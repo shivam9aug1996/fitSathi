@@ -8,51 +8,41 @@ import {
   TableRow,
   TableCell,
   Button,
-  Spinner,
-  Tooltip,
   Input,
   Chip,
-  DropdownMenu,
-  DropdownItem,
-  DropdownTrigger,
-  Dropdown,
 } from "@nextui-org/react";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowRightIcon,
-  EyeIcon,
   MagnifyingGlassIcon,
   PencilSquareIcon,
   PlusIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import {
-  useDeletePlanMutation,
-  useGetPlanListQuery,
-} from "@/app/redux/features/planSlice";
-// import PlanModal from "./PlanModal";
 import { gymApi } from "@/app/redux/features/gymSlice";
 import {
   useDeleteMemberMutation,
   useGetMemberListQuery,
 } from "@/app/redux/features/memberSlice";
-import MembershipModal from "./MembershipModal";
+import dynamic from "next/dynamic";
+// import MembershipModal from "./MembershipModal";
+const MembershipModal = dynamic(() => import("./MembershipModal"), {
+  ssr: false,
+});
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  capitalize,
-  daysUntilExpiration,
-  getDateDifferenceFromToday,
-  getDifferenceInDays,
-  spaceToCamelCase,
-  toCamelCase,
-} from "@/app/functions";
-import Back from "@/app/components/Back";
+import { spaceToCamelCase } from "@/app/functions";
+// import Back from "@/app/components/Back";
+const Back = dynamic(() => import("@/app/components/Back"), {
+  ssr: false,
+});
 import TableLoader from "@/app/components/TableLoader";
-import DeleteModal from "@/app/components/DeleteModal";
+const DeleteModal = dynamic(() => import("@/app/components/DeleteModal"), {
+  ssr: false,
+});
+// import DeleteModal from "@/app/components/DeleteModal";
 import useErrorNotification from "@/app/hooks/useErrorNotification";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const headerColumns = [
   { name: "NAME", sortable: true },
@@ -135,14 +125,6 @@ const MemberList = () => {
   useErrorNotification(deleteMemberError, isDeleteMemberError);
   useErrorNotification(getMemberError, isGetMemberError);
 
-  // useEffect(() => {
-  //   if (isActive) {
-  //     setSelectedKeys(new Set(["Active"]));
-  //   } else {
-  //     setSelectedKeys(new Set(["Expired"]));
-  //   }
-  // }, [isActive]);
-
   useEffect(() => {
     if (gymLoader === 2) {
       if (!gymId) {
@@ -181,48 +163,11 @@ const MemberList = () => {
       );
     }
 
-    // if (
-    //   !(selectedKeys.has("Active") && selectedKeys.has("Expired")) &&
-    //   Array.from(selectedKeys).length !== statusOptions.length
-    // ) {
-    //   filteredData = filteredData?.filter((user) =>
-    //     Array.from(selectedKeys).includes(user?.status)
-    //   );
-    // }
-
     return filteredData;
   }, [getMemberData, filterValue, selectedKeys]);
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
-        {/* <div className="flex gap-3">
-          <Dropdown>
-            <DropdownTrigger>
-              <Button
-                endContent={<ChevronDownIcon className="text-small w-5 h-5" />}
-                variant="flat"
-              >
-                Status
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Table Columns"
-              closeOnSelect={false}
-              selectedKeys={selectedKeys}
-              selectionMode="multiple"
-              onSelectionChange={(e) => {
-                console.log("hiiii", e);
-                setSelectedKeys(e);
-              }}
-            >
-              {statusOptions?.map((status) => (
-                <DropdownItem key={status?.uid} className="capitalize">
-                  {capitalize(status?.name)}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </div> */}
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -287,26 +232,30 @@ const MemberList = () => {
   return (
     <div className="ml-4 mr-4">
       {/* <PlanModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} /> */}
-      <MembershipModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-      />
-      <DeleteModal
-        isLoading={isDeleteMemberLoading}
-        title={"Delete Member"}
-        subtitle={
-          "Deleting this item will remove it permanently, along with all associated payments. Are you sure you want to continue?"
-        }
-        isModalOpen={isDeleteModalOpen}
-        setIsModalOpen={setIsDeleteModalOpen}
-        handleDelete={() => {
-          deleteMember(
-            JSON.stringify({
-              memberId: isDeleteModalOpen?.value,
-            })
-          );
-        }}
-      />
+      {isModalOpen.status ? (
+        <MembershipModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+      ) : null}
+      {isDeleteModalOpen?.status ? (
+        <DeleteModal
+          isLoading={isDeleteMemberLoading}
+          title={"Delete Member"}
+          subtitle={
+            "Deleting this item will remove it permanently, along with all associated payments. Are you sure you want to continue?"
+          }
+          isModalOpen={isDeleteModalOpen}
+          setIsModalOpen={setIsDeleteModalOpen}
+          handleDelete={() => {
+            deleteMember(
+              JSON.stringify({
+                memberId: isDeleteModalOpen?.value,
+              })
+            );
+          }}
+        />
+      ) : null}
       <Back
         title="Dashboard"
         onClick={() => {

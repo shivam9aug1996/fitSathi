@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCookies } from "../actions";
 import GymList from "../dashboard/GymList";
 import { isDateInRange } from "../functions";
+import useErrorNotification from "../hooks/useErrorNotification";
 import { authApi, useLogoutMutation } from "../redux/features/authSlice";
 import { gymApi } from "../redux/features/gymSlice";
 import { memberApi } from "../redux/features/memberSlice";
@@ -32,6 +33,7 @@ const Header = () => {
       data: logoutData,
     },
   ] = useLogoutMutation();
+  useErrorNotification(logoutError, isLogoutError);
   // useEffect(() => {
   //   console.log("o87654edfghj", isDateInRange("2024-05-06", "2024-05-08"));
   //   if (isLogoutSuccess) {

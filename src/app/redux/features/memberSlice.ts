@@ -9,6 +9,7 @@ export const memberApi = createApi({
     baseUrl: "/api",
   }),
   tagTypes: ["memberList"],
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     createMember: builder.mutation({
       query: (data) => ({

@@ -8,6 +8,7 @@ export const planApi = createApi({
     baseUrl: "/api",
   }),
   tagTypes: ["planList"],
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     createPlan: builder.mutation({
       query: (data) => ({

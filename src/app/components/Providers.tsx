@@ -32,6 +32,7 @@ const Providers = ({ children, getCookies }: any) => {
         <div>
           <Toaster />
         </div>
+
         <div className="flex flex-col">{children}</div>
       </NextUIProvider>
     </Provider>
