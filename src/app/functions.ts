@@ -3,11 +3,15 @@ export const getCurrentDate = (daysToAdd = 0) => {
   return moment().add(daysToAdd, "days").format("YYYY-MM-DD");
 };
 
-export const formatDate = (dateString, format = "DD-MM-YYYY") => {
-  // Parse the input date string using Moment.js
-  const date = moment(dateString, "YYYY-MM-DD");
+export const formatDate = (
+  dateString,
+  format = "DD-MM-YYYY",
+  timezone = "Asia/Kolkata"
+) => {
+  // Parse the input date string using Moment.js and set the timezone
+  const date = moment.tz(dateString, "YYYY-MM-DD", timezone);
 
-  // Format the date as "dd-mm-yyyy"
+  // Format the date as per the specified format
   return date.format(format);
 };
 
@@ -30,20 +34,17 @@ export function getDifferenceInDays(endDate) {
 }
 
 export function daysUntilExpiration(date) {
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
+  if (!date) {
+    return -1;
+  }
+  const currentDate = moment.tz("Asia/Kolkata").startOf("day");
+  const expirationDate = moment(date).tz("Asia/Kolkata").startOf("day");
+  console.log("o9876rfghjkl", expirationDate, date);
+  // Calculate the difference in days
+  const daysDifference = expirationDate.diff(currentDate, "days");
 
-  const expirationDate = new Date(date);
-  expirationDate.setHours(0, 0, 0, 0);
-
-  // Calculate the difference in milliseconds
-  const difference = expirationDate.getTime() - currentDate.getTime();
-
-  // Convert milliseconds to days
-  const daysDifference = Math.ceil(difference / (1000 * 60 * 60 * 24));
-
-  if (daysDifference > 0) {
-    return daysDifference; // Return days left until expiration
+  if (daysDifference >= 0) {
+    return daysDifference + 1; // Return days left until expiration
   } else {
     return daysDifference; // Return days passed since expiration
   }
@@ -59,8 +60,13 @@ export function capitalize(str) {
   return str?.charAt(0)?.toUpperCase() + str?.slice(1);
 }
 
-export const isExpiringInDays = (endDate, minDays, maxDays) => {
-  const daysUntilExpiry = daysUntilExpiration(endDate) + 1;
+export const isExpiringInDays = (
+  endDate,
+  minDays,
+  maxDays,
+  timezone = "Asia/Kolkata"
+) => {
+  const daysUntilExpiry = daysUntilExpiration(endDate, timezone);
   console.log("kjuytr", daysUntilExpiry, minDays, maxDays);
   return daysUntilExpiry >= minDays && daysUntilExpiry <= maxDays;
 };

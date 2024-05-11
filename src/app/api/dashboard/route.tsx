@@ -1,3 +1,4 @@
+import { daysUntilExpiration } from "@/app/functions";
 import { NextResponse } from "next/server";
 import { connectDB } from "../lib/dbconnection";
 
@@ -99,19 +100,16 @@ export async function GET(req, res) {
     );
     // Process each member to determine membership status
     for (const member of members) {
-      // Increment the number of plans
-      numPlans++;
-
       if (member.latestPayment) {
         const endDate = new Date(member.latestPayment.endDate);
-
-        if (currentDate <= endDate) {
+        let diffDays = daysUntilExpiration(member.latestPayment.endDate);
+        if (diffDays > 0) {
           // Increment the number of active members
           numActiveMembers++;
 
           // Calculate the difference in days between current date and end date
-          const diffTime = endDate - currentDate;
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          // const diffTime = endDate - currentDate;
+          // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
           // Check the range and increment respective counters
           if (diffDays >= 1 && diffDays <= 3) {

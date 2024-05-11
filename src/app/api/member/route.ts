@@ -73,6 +73,10 @@ export async function GET(req, res) {
       return NextResponse.json({ members: expiringInDays }, { status: 200 });
     } else if (isActive === true || isActive === "true") {
       activeMembers = members?.filter((member) => {
+        console.log(
+          "hiiiiii",
+          daysUntilExpiration(member?.latestPayment?.endDate)
+        );
         return daysUntilExpiration(member?.latestPayment?.endDate) >= 0;
       });
       return NextResponse.json({ members: activeMembers }, { status: 200 });
