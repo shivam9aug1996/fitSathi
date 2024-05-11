@@ -24,7 +24,8 @@ const page = () => {
   ] = useLogoutMutation();
   useEffect(() => {
     if (!userId) {
-      router.push("/");
+      // router.push("/");
+      window.location.href = "/";
     }
     logout()
       ?.unwrap()

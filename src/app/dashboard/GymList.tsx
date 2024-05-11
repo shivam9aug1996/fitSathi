@@ -232,10 +232,11 @@ const GymList = ({ logout, isLogoutLoading }) => {
           color="primary"
           isLoading={isLogoutLoading}
           onClick={() => {
-            // logout()
-            //   .unwrap()
-            //   .then(() => {});
-            router.push("/logout");
+            logout()
+              .unwrap()
+              .then(() => {
+                router.push("/logout");
+              });
           }}
         >
           Logout
