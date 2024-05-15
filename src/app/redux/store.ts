@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import attendanceSlice, { attendanceApi } from "./features/attendanceSlice";
 import authSlice, { authApi } from "./features/authSlice";
 import gymSlice, { gymApi } from "./features/gymSlice";
 import memberSlice, { memberApi } from "./features/memberSlice";
@@ -18,6 +19,8 @@ const store = configureStore({
     [memberApi.reducerPath]: memberApi.reducer,
     payment: paymentSlice,
     [paymentApi.reducerPath]: paymentApi.reducer,
+    attendance: attendanceSlice,
+    [attendanceApi.reducerPath]: attendanceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -25,7 +28,8 @@ const store = configureStore({
       .concat(gymApi.middleware)
       .concat(planApi.middleware)
       .concat(memberApi.middleware)
-      .concat(paymentApi.middleware),
+      .concat(paymentApi.middleware)
+      .concat(attendanceApi.middleware),
 });
 
 export default store;

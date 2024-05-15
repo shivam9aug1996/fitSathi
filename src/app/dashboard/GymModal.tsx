@@ -54,12 +54,23 @@ export const GymModal = ({ isModalOpen, setIsModalOpen }) => {
   const [formData, setFormData] = useState({
     name: "",
     location: "",
+    newLocation: {
+      street: "",
+      city: "",
+      state: "",
+      country: "",
+      postalCode: "",
+      latitude: "",
+      longitude: "",
+      address: "",
+      placeId: "",
+    },
   });
 
   useEffect(() => {
     if (isCreateGymSuccess) {
       router.replace("/dashboard");
-      dispatch(gymApi.util.resetApiState());
+      // dispatch(gymApi.util.resetApiState());
 
       closeModal();
     }

@@ -1,6 +1,9 @@
 import { ObjectId } from "mongodb";
 import { NextResponse } from "../../../../node_modules/next/server";
 import { connectDB } from "../lib/dbconnection";
+import base64url from "base64url";
+
+const shortenId = (id) => base64url.encode(id.toString()).slice(0, 4);
 
 export async function POST(req, res) {
   try {
@@ -36,6 +39,18 @@ export async function POST(req, res) {
       isPrimary: true, // Set isPrimary to true if no primary gym exists for the user
     });
 
+    const shortId = shortenId(result.insertedId);
+
+    // // Generate unique URL for the gym
+    // const hostname = req.headers.get("host");
+    // console.log("iuytfghjk", hostname, req);
+    // const gymUrl = `https://${hostname}/gym/attendance/${result.insertedId}`;
+
+    // // const gymUrl = `/gym/${shortId}`;
+    // await db
+    //   .collection("gyms")
+    //   .updateOne({ _id: result.insertedId }, { $set: { gymUrl } });
+
     // If there's already a primary gym, update its isPrimary field to false
     if (primaryGym) {
       await db
@@ -52,6 +67,7 @@ export async function POST(req, res) {
           location,
           userId,
           isPrimary: true, // Set the new gym as primary
+          //gymUrl,
         },
       },
       { status: 201 }

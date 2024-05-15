@@ -114,7 +114,7 @@ const GymList = ({ logout, isLogoutLoading }) => {
 
   useEffect(() => {
     if (isDeleteGymSuccess || isUpdateGymSuccess) {
-      dispatch(gymApi.util.resetApiState());
+      //dispatch(gymApi.util.resetApiState());
       // dispatch(gymApi.util.invalidateTags(["gymList"]));
       // dispatch(gymApi.util.resetApiState());
       // setTimeout(() => {

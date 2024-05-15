@@ -27,7 +27,8 @@ export async function middleware(request: NextRequest) {
       currentPath.startsWith("/api") &&
       !currentPath.includes("/api/auth/signup") &&
       !currentPath.includes("/api/auth/login") &&
-      !currentPath.includes("/api/auth/logout")
+      !currentPath.includes("/api/auth/logout") &&
+      !currentPath.includes("/api/gym/attendance")
     ) {
       return new NextResponse(
         JSON.stringify({ success: false, message: "Authentication failed" }),

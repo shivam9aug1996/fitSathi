@@ -18,11 +18,11 @@ const AddPlan = dynamic(() => import("../components/AddPlan"), {
 import useErrorNotification from "../hooks/useErrorNotification";
 import { useGetDashboardDetailsQuery } from "../redux/features/gymSlice";
 import DashboardItemLoading from "./DashboardItemLoading";
-// import DashboardItem from "./DashboardItem";
-const DashboardItem = dynamic(() => import("./DashboardItem"), {
-  ssr: false,
-  loading: () => <DashboardItemLoading title={"Sample text"} />,
-});
+import DashboardItem from "./DashboardItem";
+// const DashboardItem = dynamic(() => import("./DashboardItem"), {
+//   ssr: false,
+//   loading: () => <DashboardItemLoading title={"Sample text"} />,
+// });
 import DashboardLoader from "./DashboardLoader";
 
 const GymDashboard = () => {

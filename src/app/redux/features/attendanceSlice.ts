@@ -1,0 +1,172 @@
+import { deleteCookies } from "@/app/actions";
+import { createSlice } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const attendanceApi = createApi({
+  reducerPath: "attendanceApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "/api",
+    // prepareHeaders: async (headers) => {
+    //   headers.set("user-fingerprint", await getFp());
+    // },
+  }),
+  refetchOnReconnect: true,
+  //tagTypes: ["atte"],
+  endpoints: (builder) => ({
+    // createGym: builder.mutation({
+    //   query: (data) => ({
+    //     url: "/gym",
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    //  // invalidatesTags: ["gymList"],
+    // }),
+    // updateGym: builder.mutation({
+    //   query: (data) => ({
+    //     url: "/gym",
+    //     method: "PUT",
+    //     body: data,
+    //   }),
+    //  // invalidatesTags: ["gymList"],
+    // }),
+    getGymData: builder.query({
+      query: (data) => ({
+        url: "/gym/attendance",
+        method: "GET",
+        params: {
+          gymId: data?.gymId,
+        },
+      }),
+      // providesTags: ["gymList"],
+    }),
+    getGymMemberData: builder.query({
+      query: (data) => ({
+        url: "/gym/attendance",
+        method: "GET",
+        params: {
+          gymId: data?.gymId,
+          mobileNumber: data?.mobileNumber,
+        },
+      }),
+      // providesTags: ["gymList"],
+    }),
+    updateAttendance: builder.mutation({
+      query: (data) => ({
+        url: "/gym/attendance",
+        method: "PUT",
+        body: data,
+      }),
+      // providesTags: ["gymList"],
+    }),
+
+    // deleteGym: builder.mutation({
+    //   query: (data) => ({
+    //     url: "/gym",
+    //     method: "DELETE",
+    //     body: data,
+    //   }),
+    //  // invalidatesTags: ["gymList"],
+    // }),
+    // getDashboardDetails: builder.query({
+    //   query: (data) => ({
+    //     url: "/dashboard",
+    //     method: "GET",
+    //     params: {
+    //       gymId: data?.gymId,
+    //     },
+    //   }),
+    //   providesTags: ["dashboard"],
+    // }),
+  }),
+});
+
+const attendanceSlice = createSlice({
+  name: "attendanceSlice",
+  initialState: {
+    // token: null,
+    // userData: null,
+    // authLoader: false,
+    // reduxStarted: false,
+    // selectedGymId: null,
+    // gymLoader: 0,
+    // selectedGym: null,
+  },
+  reducers: {
+    // setGymIdSelected: (state, action) => {
+    //   state.selectedGymId = action.payload;
+    // },
+    // setAuth: (state, action) => {
+    //   console.log("kiuytrdfghj", action.payload);
+    //   if (action?.payload?.userData) {
+    //     state.userData = JSON.parse(action?.payload?.userData);
+    //     state.token = action?.payload?.token;
+    //   } else {
+    //     state.userData = null;
+    //   }
+    //   state.reduxStarted = true;
+    // },
+    // setAuthLoader: (state, action) => {
+    //   state.authLoader = action.payload;
+    // },
+  },
+  extraReducers: (builder) => {
+    // builder.addMatcher(
+    //   attendanceApi.endpoints.login.matchFulfilled,
+    //   (state, action) => {
+    //     state.token = action.payload?.token || null;
+    //     state.userData = action.payload?.userData || null;
+    //   }
+    // );
+    // builder.addMatcher(
+    //   attendanceApi.endpoints.getGymList.matchPending,
+    //   (state, action) => {
+    //     state.gymLoader = 1;
+    //   }
+    // );
+    // builder.addMatcher(
+    //   attendanceApi.endpoints.getGymList.matchFulfilled,
+    //   (state, action) => {
+    //     state.gymLoader = 2;
+    //     if (action.payload?.gyms?.length == 0) {
+    //       state.selectedGymId = null;
+    //     } else {
+    //       for (const gym of action.payload?.gyms) {
+    //         // Check if the gym is primary
+    //         if (gym?.isPrimary === true) {
+    //           state.selectedGymId = gym?._id;
+    //           state.selectedGym = gym;
+    //           //dispatch(setGymIdSelected(gym?._id));
+    //           //return gym; // Return the primary gym
+    //         }
+    //       }
+    //     }
+    //   }
+    // );
+    // builder.addMatcher(
+    //   attendanceApi.endpoints.getGymList.matchRejected,
+    //   (state, action) => {
+    //     state.gymLoader = 2;
+    //   }
+    // );
+    // builder.addMatcher(attendanceApi.endpoints.logout.matchFulfilled, (state) => {
+    //   state.token = null;
+    //   state.userData = null;
+    //   deleteCookies();
+    // });
+  },
+});
+
+export const {
+  useGetGymDataQuery,
+  useGetGymMemberDataQuery,
+  useUpdateAttendanceMutation,
+  // useGetGymListQuery,
+  // useUpdateGymMutation,
+  // useDeleteGymMutation,
+  // useCreateGymMutation,
+  // useGetDashboardDetailsQuery,
+} = attendanceApi;
+
+//export const { setGymIdSelected } = attendanceSlice.actions;
+
+export default attendanceSlice.reducer;

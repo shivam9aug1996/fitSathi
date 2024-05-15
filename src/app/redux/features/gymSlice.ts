@@ -19,7 +19,7 @@ export const gymApi = createApi({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["gymList", "dashboard"],
+      invalidatesTags: ["gymList"],
     }),
     updateGym: builder.mutation({
       query: (data) => ({
@@ -27,7 +27,7 @@ export const gymApi = createApi({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["gymList", "dashboard"],
+      invalidatesTags: ["gymList"],
     }),
     getGymList: builder.query({
       query: (data) => ({

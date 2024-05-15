@@ -16,6 +16,7 @@
     "@nextui-org/react": "^2.3.5",
     "@reduxjs/toolkit": "^2.2.3",
     "async-lock": "^1.4.1",
+    "base64url": "^3.0.1",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^11.1.7",
     "jsonwebtoken": "^9.0.2",
