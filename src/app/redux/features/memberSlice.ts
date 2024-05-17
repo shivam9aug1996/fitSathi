@@ -50,7 +50,7 @@ export const memberApi = createApi({
                 : "Expired",
             daysLeft:
               daysUntilExpiration(item?.latestPayment?.endDate) >= 0
-                ? daysUntilExpiration(item?.latestPayment?.endDate) + 1
+                ? daysUntilExpiration(item?.latestPayment?.endDate)
                 : -1,
             amountDue: item?.latestPayment
               ? item?.latestPayment?.amountDue
