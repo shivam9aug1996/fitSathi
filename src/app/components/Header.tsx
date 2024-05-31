@@ -70,12 +70,21 @@ const Header = () => {
       style={{ zIndex: 1 }}
     >
       <div className="flex flex-row items-center justify-between w-full">
-        <Link
+        {/* <Link
           className="text-3xl md:text-4xl lg:text-5xl font-bold text-center cursor-pointer"
           href="/"
+          replace
         >
           <Logo />
-        </Link>
+        </Link> */}
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            router.push("/");
+          }}
+        >
+          <Logo />
+        </div>
         <div className="flex items-center gap-2">
           {reduxStarted ? (
             !userId ? (
