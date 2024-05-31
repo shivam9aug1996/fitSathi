@@ -43,6 +43,7 @@ const DeleteModal = dynamic(() => import("@/app/components/DeleteModal"), {
 });
 // import DeleteModal from "@/app/components/DeleteModal";
 import useErrorNotification from "@/app/hooks/useErrorNotification";
+import Link from "next/link";
 
 const headerColumns = [
   { name: "NAME", sortable: true },
@@ -366,16 +367,29 @@ const MemberList = () => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Button
-                    color="primary"
-                    size="sm"
-                    onClick={() => {
-                      router.push(`/dashboard/members/${item?._id}/payments`);
-                    }}
-                  >
-                    {"Go to"}
-                    <ArrowRightIcon className="w-4 h-4" />
-                  </Button>
+                  <Link href={`/dashboard/members/${item?._id}/payments`}>
+                    {/* <Button
+                      color="primary"
+                      size="sm"
+                      onClick={() => {
+                        //router.push(`/dashboard/members/${item?._id}/payments`);
+                      }}
+                    > */}
+                    <div
+                      className={
+                        "flex flex-row p-2 items-center justify-between text-white px-4 rounded-md"
+                      }
+                      style={{
+                        maxWidth: 100,
+                        minWidth: 100,
+                        backgroundColor: "lightseagreen",
+                      }}
+                    >
+                      <p>{"Go to"}</p>
+                      <ArrowRightIcon className="w-4 h-4" />
+                      {/* </Button> */}
+                    </div>
+                  </Link>
                 </TableCell>
               </TableRow>
             );

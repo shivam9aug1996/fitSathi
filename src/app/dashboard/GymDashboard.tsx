@@ -84,16 +84,19 @@ const GymDashboard = () => {
                 title={"Plans"}
                 value={numPlans}
                 onClick={() => router.push("/dashboard/plans")}
+                href={"/dashboard/plans"}
               />
               <DashboardItem
                 title={"Active Members"}
                 value={numActiveMembers}
                 onClick={() => router.push("/dashboard/members?isActive=true")}
+                href={"/dashboard/members?isActive=true"}
               />
               <DashboardItem
                 title={"Expired Members"}
                 value={numExpiredMembers}
                 onClick={() => router.push("/dashboard/members?isActive=false")}
+                href={"/dashboard/members?isActive=false"}
               />
               <DashboardItem
                 title={"Expiring Members in (1-3 days)"}
@@ -102,6 +105,9 @@ const GymDashboard = () => {
                   router.push(
                     "/dashboard/members?isActive=true&startRange=1&endRange=3"
                   )
+                }
+                href={
+                  "/dashboard/members?isActive=true&startRange=1&endRange=3"
                 }
               />
               <DashboardItem
@@ -112,6 +118,9 @@ const GymDashboard = () => {
                     "/dashboard/members?isActive=true&startRange=4&endRange=7"
                   )
                 }
+                href={
+                  "/dashboard/members?isActive=true&startRange=4&endRange=7"
+                }
               />
               <DashboardItem
                 title={"Expiring members in (8-15 days)"}
@@ -120,6 +129,9 @@ const GymDashboard = () => {
                   router.push(
                     "/dashboard/members?isActive=true&startRange=8&endRange=15"
                   )
+                }
+                href={
+                  "/dashboard/members?isActive=true&startRange=8&endRange=15"
                 }
               />
               <DashboardItem
