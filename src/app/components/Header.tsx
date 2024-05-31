@@ -80,7 +80,7 @@ const Header = () => {
         <div
           className="cursor-pointer"
           onClick={() => {
-            router.push("/");
+            userId ? router.push("/dashboard") : router.push("/");
           }}
         >
           <Logo />
