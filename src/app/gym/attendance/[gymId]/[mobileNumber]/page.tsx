@@ -1,11 +1,11 @@
 "use client";
-import { getCurrentDate } from "@/app/functions";
+import { formatDate, getCurrentDate } from "@/app/functions";
 import {
   useGetGymDataQuery,
   useGetGymMemberDataQuery,
   useUpdateAttendanceMutation,
 } from "@/app/redux/features/attendanceSlice";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Card, Input, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -41,13 +41,35 @@ const page = ({ params }) => {
   } = getGymMemberData || {};
 
   console.log("iuytrdfghj", memberData);
+  if (isGetDataGymLoading) {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "80vh" }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
   if (isUpdateAttendanceSuccess) {
-    return <h1>Attendance marked successfully</h1>;
+    return (
+      <div
+        className="flex justify-center items-center text-center"
+        style={{ height: "80vh" }}
+      >
+        <Card className="p-10">
+          <h1>Attendance marked successfully</h1>
+        </Card>
+      </div>
+    );
   }
   return (
-    <>
+    <div
+      className="flex justify-center items-center flex-col gap-4 p-10 text-center"
+      style={{ height: "80vh" }}
+    >
       {memberData?.name && !attendanceData ? (
-        <>
+        <Card className="p-5 gap-3" style={{ width: "25%" }}>
           <h1>{memberData?.name}</h1>
 
           <Button
@@ -60,16 +82,19 @@ const page = ({ params }) => {
                 })
               );
             }}
-            color="success"
+            color="primary"
           >
             Present
           </Button>
-        </>
+        </Card>
       ) : attendanceData ? (
-        <h1>attendance already marked</h1>
+        <Card className="p-10">
+          <h6>Hi, {memberData?.name}</h6>
+          <h5>{`Attendance already marked for ${formatDate(new Date())}`}</h5>
+        </Card>
       ) : null}
       {isGetDataGymError && (
-        <>
+        <Card className="p-10">
           <h1>{getGymDataError?.data?.message}</h1>
           <Button
             onClick={() => {
@@ -78,9 +103,9 @@ const page = ({ params }) => {
           >
             Try another number
           </Button>
-        </>
+        </Card>
       )}
-    </>
+    </div>
   );
 };
 

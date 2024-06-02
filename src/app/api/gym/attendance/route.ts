@@ -83,7 +83,7 @@ export async function GET(req, res) {
       }
     }
   } catch (error) {
-    console.log("Error", error);
+    console.log("Error87654", error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }

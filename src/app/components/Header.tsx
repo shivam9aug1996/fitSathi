@@ -88,11 +88,15 @@ const Header = () => {
         <div className="flex items-center gap-2">
           {reduxStarted ? (
             !userId ? (
-              <>
-                <HeaderNavLink title={"Home"} path={"/"} />
-                <HeaderNavLink title={"Login"} path={"/login"} />
-                <HeaderNavLink title={"Signup"} path={"/signup"} />
-              </>
+              pathname.includes("/gym/attendance") ? (
+                <></>
+              ) : (
+                <>
+                  <HeaderNavLink title={"Home"} path={"/"} />
+                  <HeaderNavLink title={"Login"} path={"/login"} />
+                  <HeaderNavLink title={"Signup"} path={"/signup"} />
+                </>
+              )
             ) : (
               <div className="flex flex-col">
                 <GymList logout={logout} isLogoutLoading={isLogoutLoading} />
@@ -102,6 +106,8 @@ const Header = () => {
             <div className="flex flex-col">
               <GymList logout={logout} isLogoutLoading={isLogoutLoading} />
             </div>
+          ) : pathname.includes("/gym/attendance") ? (
+            <></>
           ) : (
             <>
               <HeaderNavLink title={"Home"} path={"/"} />

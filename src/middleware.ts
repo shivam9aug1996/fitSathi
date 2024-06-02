@@ -59,7 +59,8 @@ export async function middleware(request: NextRequest) {
   } else if (
     currentPath === "/" ||
     currentPath === "/login" ||
-    currentPath === "/signup"
+    currentPath === "/signup" ||
+    currentPath.includes("/gym/attendance")
   ) {
     //console.log("liu56789876765", currentPath, userRole);
     return NextResponse.redirect(new URL("/dashboard", request.url));
@@ -76,6 +77,7 @@ export const config = {
     "/",
     "/signup",
     "/logout",
+    "/gym/attendance/:path*",
     // "/whatsapp-script.js",
   ],
 };

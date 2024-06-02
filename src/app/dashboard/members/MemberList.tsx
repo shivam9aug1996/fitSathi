@@ -367,29 +367,25 @@ const MemberList = () => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Link href={`/dashboard/members/${item?._id}/payments`}>
-                    {/* <Button
-                      color="primary"
-                      size="sm"
-                      onClick={() => {
-                        //router.push(`/dashboard/members/${item?._id}/payments`);
-                      }}
-                    > */}
-                    <div
+                  <div
+                    style={{
+                      maxWidth: 100,
+                      minWidth: 100,
+                      backgroundColor: "lightseagreen",
+                    }}
+                    className={"rounded-md"}
+                  >
+                    <Link
                       className={
                         "flex flex-row p-2 items-center justify-between text-white px-4 rounded-md"
                       }
-                      style={{
-                        maxWidth: 100,
-                        minWidth: 100,
-                        backgroundColor: "lightseagreen",
-                      }}
+                      href={`/dashboard/members/${item?._id}/payments`}
                     >
                       <p>{"Go to"}</p>
                       <ArrowRightIcon className="w-4 h-4" />
                       {/* </Button> */}
-                    </div>
-                  </Link>
+                    </Link>
+                  </div>
                 </TableCell>
               </TableRow>
             );

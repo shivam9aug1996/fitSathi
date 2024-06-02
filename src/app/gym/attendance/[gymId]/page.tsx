@@ -1,6 +1,7 @@
 "use client";
+import Loader from "@/app/components/Loader";
 import { useGetGymDataQuery } from "@/app/redux/features/attendanceSlice";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -22,8 +23,28 @@ const page = ({ params }) => {
     setMobileNumber(e.target.value);
   };
   console.log("iuytrdfghj", getGymData);
+  if (isGetDataGymError) {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "80vh" }}
+      >
+        <h4 className="font-bold">{"Something went wrong!!"}</h4>
+      </div>
+    );
+  }
+  if (isGetDataGymLoading) {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "80vh" }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
   return (
-    <>
+    <div className="flex justify-center items-center flex-col gap-4 p-10">
       <h1>{name}</h1>
       <h1>{location}</h1>
       <Input
@@ -33,7 +54,7 @@ const page = ({ params }) => {
         label="Mobile number"
         isRequired
         isClearable
-        className="w-full"
+        className="w-56"
         maxLength={10}
         onClear={() => setMobileNumber("")}
       />
@@ -44,7 +65,7 @@ const page = ({ params }) => {
       >
         Submit
       </Button>
-    </>
+    </div>
   );
 };
 
