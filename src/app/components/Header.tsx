@@ -47,6 +47,11 @@ const Header = () => {
   //     //  window.location.replace("/");
   //   }
   // }, [isLogoutSuccess]);
+  useEffect(() => {
+    if (pathname === "/" && userId) {
+      router.replace("/dashboard");
+    }
+  }, [pathname, userId]);
 
   return (
     // <div className="flex space-x-2">
