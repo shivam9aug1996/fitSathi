@@ -70,7 +70,7 @@ const connectDatabase = async (client) => {
     } else {
       if (client?.db) {
         console.log("123456789 db connecting");
-        db = await client.db("basic-crud");
+        db = await client.db("fitsathi");
         console.log("123456789 db connected");
         return db;
       } else {
